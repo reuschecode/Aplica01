@@ -9,12 +9,12 @@ public class Persona {
     private int edad;
     private boolean sexo;
     private String estadoCivil;
-    private float peso;
-    private float talla;
+    private double peso;
+    private double talla;
     private String direccion;
     private Date fechaNacimiento;
 
-    public Persona(String dni, String apellidos, String nombres, int edad, boolean sexo, String estadoCivil, float peso, float talla, String direccion, Date fechaNacimiento) {
+    public Persona(String dni, String apellidos, String nombres, int edad, boolean sexo, String estadoCivil, double peso, double talla, String direccion, Date fechaNacimiento) {
         this.dni = dni;
         this.apellidos = apellidos;
         this.nombres = nombres;
@@ -43,9 +43,7 @@ public class Persona {
         this.apellidos = apellidos;
     }
 
-    public String getNombres() {
-        return nombres;
-    }
+    public String getNombres() { return nombres;}
 
     public void setNombres(String nombres) {
         this.nombres = nombres;
@@ -75,19 +73,19 @@ public class Persona {
         this.estadoCivil = estadoCivil;
     }
 
-    public float getPeso() {
+    public double getPeso() {
         return peso;
     }
 
-    public void setPeso(float peso) {
+    public void setPeso(double peso) {
         this.peso = peso;
     }
 
-    public float getTalla() {
+    public double getTalla() {
         return talla;
     }
 
-    public void setTalla(float talla) {
+    public void setTalla(double talla) {
         this.talla = talla;
     }
 

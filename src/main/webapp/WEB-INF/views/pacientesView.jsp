@@ -54,7 +54,7 @@
                     <th scope="col">Talla</th>
                     <th scope="col">Direccion</th>
                     <th scope="col">Fecha Nacimiento</th>
-                    <th scope="col">Detalle</th>
+                    <th scope="col">Datos</th>
                     <th scope="col">Imagen</th>
                 </tr>
                 </thead>
@@ -83,7 +83,7 @@
                                 Ver detalle
                             </a>-->
                             <a href="detalle?dni=${p.dni}&fecha=${fechaBusqueda}" class="btn btn btn-primary" role="button">
-                                Ver detalle
+                                Ver datos
                             </a>
                        </td>
                         <td><img alt="XD" src="${urlPublic}/images/usuario.png" width="75px"></td>
