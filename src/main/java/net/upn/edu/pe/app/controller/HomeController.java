@@ -1,5 +1,7 @@
 package net.upn.edu.pe.app.controller;
 
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -9,6 +11,7 @@ import net.upn.edu.pe.app.model.Antecedente;
 import net.upn.edu.pe.app.model.Paciente;
 import net.upn.edu.pe.app.model.Consulta;
 import net.upn.edu.pe.app.model.Persona;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import util.Utiles;
 
+import javax.sql.DataSource;
 import javax.sql.rowset.Predicate;
 
 @Controller

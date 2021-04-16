@@ -9,6 +9,8 @@
 
     <context:component-scan base-package="net.upn.edu.pe.app.controller"/>
     <mvc:annotation-driven/>
+    <context:annotation-config/>
+    <context:component-scan base-package="net.upn.edu.pe.app.controller" />
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/"/>
 
@@ -16,4 +18,13 @@
     </bean>
 
     <mvc:resources location="/resources/" mapping="/resources/**"/>
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/clinica"/>
+        <property name="username" value="root"/>
+        <property name="password" value=""/>
+    </bean>
+    <bean id="noticiasDao" class="net.upn.edu.pe.app.service.NoticiaImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 </beans>
