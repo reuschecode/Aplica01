@@ -11,6 +11,7 @@ public class Persona {
     private String estadoCivil;
     private double peso;
     private double talla;
+    //private String lugarNacimiento;
     private String direccion;
     private Date fechaNacimiento;
 

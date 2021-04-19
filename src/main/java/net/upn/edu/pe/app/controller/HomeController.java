@@ -1,33 +1,29 @@
 package net.upn.edu.pe.app.controller;
 
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.LinkedList;
 
-import net.upn.edu.pe.app.model.Antecedente;
-import net.upn.edu.pe.app.model.Paciente;
-import net.upn.edu.pe.app.model.Consulta;
-import net.upn.edu.pe.app.model.Persona;
-import org.springframework.jdbc.core.JdbcTemplate;
+import net.upn.edu.pe.app.dao.PacienteDao;
+import net.upn.edu.pe.app.dao.UsuarioDAO;
+import net.upn.edu.pe.app.model.*;
+import net.upn.edu.pe.app.service.UsuarioImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import util.Utiles;
-
-import javax.sql.DataSource;
-import javax.sql.rowset.Predicate;
 
 @Controller
 public class HomeController {
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
     List<Paciente> listaPacientes = new LinkedList<>();
+    @Autowired
+    private UsuarioDAO usuarioDAO;
+    @Autowired
+    private PacienteDao pacienteDao;
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String irHome() {
@@ -48,8 +44,8 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/pacientes", method = RequestMethod.GET)
-    public String mostrarPacientes(Model model){
-        List<Paciente> pacientes = getPacientes();
+    public String mostrarPacientes(Model model) throws SQLException {
+        List<Paciente> pacientes = pacienteDao.findAll();
         List<String> listaFechas = Utiles.getNextDays(4);
 
         model.addAttribute("fechaBusqueda",dateFormat.format(new Date()));
@@ -65,6 +61,7 @@ public class HomeController {
             List<Consulta> historial1 = new LinkedList<Consulta>();
             List<Antecedente> antecedentes2 = new LinkedList<Antecedente>();
             List<Consulta> historial2 = new LinkedList<Consulta>();
+
             antecedentes1.add(new Antecedente(new Date(), "Enfermedad grave con Amígdalas", "Operación (Retiración de Amígdalas)", "Sin amígdalas", 1));
             antecedentes1.add(new Antecedente(new Date(), "Chequeo oncológico", "Citología de tejído de estomacal", "Cáncer de estómago", 2));
             antecedentes2.add(new Antecedente(new Date(), "Chequeo oncológico", "Citología de tejído de estomacal", "Cáncer de estómago", 3));
@@ -81,6 +78,27 @@ public class HomeController {
         }
         catch (Exception ex){
             return null;
+        }
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String mostrarLogeo(Model model){
+
+        return "login";
+    }
+
+    @RequestMapping(value = "/loginProcess", method = RequestMethod.POST)
+    public String procesarLogin(Model model, @ModelAttribute("email") String email, @ModelAttribute("password") String password){
+        Usuario usuario = usuarioDAO.validateUsuario(email,password);
+
+        if(usuario != null){
+            model.addAttribute("nombres", usuario.getNombres());
+            model.addAttribute("apellidos", usuario.getApellidos());
+            return "loginView";
+        }
+        else{
+            model.addAttribute("mensaje", "Nombre de usuario o contraseña invalidos.");
+            return "home";
         }
     }
 

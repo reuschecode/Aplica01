@@ -10,10 +10,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Pacientes</title>
-    <spring:url value="/resources" var="urlPublic"/>
+    <spring:url value="/resources/" var="urlPublic"/>
     <spring:url value="/" var="urlRoot"/>
-    <link rel="stylesheet" href="${urlPublic}/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="${urlPublic}/bootstrap/css/theme.css">
+    <link rel="stylesheet" href="${urlPublic}bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${urlPublic}bootstrap/css/theme.css">
 </head>
 <body>
 
@@ -76,8 +76,8 @@
                         <td>${p.estadoCivil}</td>
                         <td>${p.peso}</td>
                         <td>${p.talla}</td>
-                        <td><fmt:formatDate value="${p.fechaNacimiento}" pattern="dd/MM/YYYY"/></td>
                         <td>${p.direccion}</td>
+                        <td><fmt:formatDate value="${p.fechaNacimiento}" pattern="dd/MM/YYYY"/></td>
                         <td>
                             <!--<a class="btn btn-sm btn-primary" href="detalle/${p.dni}/${fechaBusqueda}" role="button">
                                 Ver detalle

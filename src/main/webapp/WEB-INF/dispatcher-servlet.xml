@@ -17,14 +17,26 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/clinica?useUnicode=yes&amp;characterEncoding=UTF-8" />
+        <property name="username" value="root" />
+        <property name="password" value="" />
+    </bean>
+
     <mvc:resources location="/resources/" mapping="/resources/**"/>
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/clinica"/>
-        <property name="username" value="root"/>
-        <property name="password" value=""/>
+    <bean id="jdbcTemplate"
+        class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource" />
     </bean>
-    <bean id="noticiasDao" class="net.upn.edu.pe.app.service.NoticiaImpl">
-        <property name="dataSource" ref="dataSource"/>
+    <bean id="pacienteDAO" class="net.upn.edu.pe.app.service.PacienteImpl">
+        <property name="dataSource" ref="dataSource" />
     </bean>
+    <bean id="usuarioDAO" class="net.upn.edu.pe.app.service.UsuarioImpl">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+
 </beans>
