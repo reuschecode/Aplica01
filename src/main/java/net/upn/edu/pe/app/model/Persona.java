@@ -1,5 +1,7 @@
 package net.upn.edu.pe.app.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Persona {
@@ -13,7 +15,11 @@ public class Persona {
     private double talla;
     //private String lugarNacimiento;
     private String direccion;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date fechaNacimiento;
+
+    public Persona() {
+    }
 
     public Persona(String dni, String apellidos, String nombres, int edad, boolean sexo, String estadoCivil, double peso, double talla, String direccion, Date fechaNacimiento) {
         this.dni = dni;

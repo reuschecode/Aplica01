@@ -9,6 +9,9 @@ public class Paciente extends Persona{
     private List<Consulta> historialClinico;
     private List<Antecedente> antecedentesClinicos;
 
+    public Paciente() {
+    }
+
     public Paciente(String dni, String apellidos, String nombres, int edad, boolean sexo, String estadoCivil, double peso, double talla, String direccion, Date fechaNacimiento, String idHistorial, List<Antecedente> antecendentesClinicos, List<Consulta> historialClinico) {
         super(dni, apellidos, nombres, edad, sexo, estadoCivil, peso, talla, direccion, fechaNacimiento);
         this.idHistorial = idHistorial;

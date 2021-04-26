@@ -2,10 +2,7 @@ package net.upn.edu.pe.app.service;
 
 import net.upn.edu.pe.app.dao.UsuarioDAO;
 import net.upn.edu.pe.app.model.Usuario;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
@@ -45,22 +42,8 @@ public class UsuarioImpl implements UsuarioDAO {
     public Usuario findById(int id) {
         String sql = "SELECT * FROM usuarios WHERE id_usuario = "+id;
         jdbcTemplate = new JdbcTemplate(dataSource);
-        ResultSetExtractor<Usuario> extractor = new ResultSetExtractor<Usuario>() {
-            @Override
-            public Usuario extractData(ResultSet rs) throws SQLException, DataAccessException {
-                if(rs.next()){
-                    return new Usuario(rs.getInt("id_usuario"),
-                                        rs.getString("nombres"),
-                                        rs.getString("apellidos"),
-                                        rs.getString("telefono"),
-                                        rs.getString("email"),
-                                        rs.getString("password"),
-                                        rs.getBoolean("activo"));
-                }
-                return null;
-            }
-        };
-        return jdbcTemplate.query(sql, extractor);
+        List<Usuario> usuarios = jdbcTemplate.query(sql, new UsuarioMapper());
+        return usuarios.size() > 0 ? usuarios.get(0) : null;
     }
 
     @Override

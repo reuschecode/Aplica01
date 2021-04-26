@@ -2,21 +2,14 @@ package net.upn.edu.pe.app.service;
 
 import net.upn.edu.pe.app.dao.PacienteDao;
 import net.upn.edu.pe.app.model.Paciente;
-import net.upn.edu.pe.app.model.Usuario;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class PacienteImpl implements PacienteDao {
 
@@ -28,17 +21,11 @@ public class PacienteImpl implements PacienteDao {
     }
 
     @Override
-    public void insert(Paciente paciente) {
-    }
-
-    @Override
-    public void update(Paciente paciente) {
-
-    }
-
-    @Override
     public Paciente findByDni(String dni) {
-        return null;
+        String sql = "SELECT * FROM paciente INNER JOIN persona WHERE paciente.dni_persona = persona.dni AND persona.dni =" + dni;
+        jdbcTemplate = new JdbcTemplate(dataSource);
+        List<Paciente> pacientes = jdbcTemplate.query(sql, new PacienteMapper());
+        return pacientes.size() > 0 ? pacientes.get(0) : null;
     }
 
     @Override
@@ -47,6 +34,43 @@ public class PacienteImpl implements PacienteDao {
         jdbcTemplate = new JdbcTemplate(dataSource);
         return jdbcTemplate.query(sql, new PacienteMapper());
     }
+
+    @Override
+    public int insert(Paciente paciente) {
+        String sql = "INSERT INTO persona " +
+                "(dni, apellidos, nombres, edad, sexo, estadoCivil, peso, talla, direccion, fechaNacimiento) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate.update(sql, paciente.getDni(),paciente.getApellidos(),
+                paciente.getNombres(), paciente.getEdad(), paciente.isSexo(), paciente.getEstadoCivil(),
+                paciente.getPeso(), paciente.getTalla(), paciente.getDireccion(), paciente.getFechaNacimiento());
+        sql = "INSERT INTO paciente (dni_persona, id_antecedente_clinico, id_historial_clinico) VALUES (?, ?, ?)";
+        return jdbcTemplate.update(sql, paciente.getDni(), 123, 123);
+    }
+
+    @Override
+    public int update(Paciente paciente) {
+        String sql = "UPDATE persona SET " +
+                "dni = ?, apellidos = ?, nombres = ?, edad = ?, sexo = ?, estadoCivil = ?, peso = ?, " +
+                "talla = ?, direccion = ?, fechaNacimiento = ? " +
+                "WHERE dni = ?";
+        jdbcTemplate = new JdbcTemplate(dataSource);
+        return jdbcTemplate.update(sql, paciente.getDni(),paciente.getApellidos(),
+                paciente.getNombres(), paciente.getEdad(), paciente.isSexo(), paciente.getEstadoCivil(),
+                paciente.getPeso(), paciente.getTalla(), paciente.getDireccion(), paciente.getFechaNacimiento(),
+                paciente.getDni());
+    }
+
+    @Override
+    public int delete(String dni) {
+        String sql = "DELETE FROM paciente WHERE dni_persona = ?";
+        jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate.update(sql, dni);
+        sql = "DELETE FROM persona WHERE dni = ?";
+        return jdbcTemplate.update(sql, dni);
+    }
+
+
 
     static class PacienteMapper implements RowMapper<Paciente> {
         public Paciente mapRow(ResultSet rs, int arg1) throws SQLException{
@@ -61,7 +85,7 @@ public class PacienteImpl implements PacienteDao {
                     rs.getDouble("talla"),
                     rs.getString("direccion"),
                     rs.getDate("fechaNacimiento"),
-                    rs.getString("id_historial_clinico"),
+                    "123",
                     null,
                     null
             );

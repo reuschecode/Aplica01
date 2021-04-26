@@ -6,8 +6,9 @@ import java.util.List;
 
 public interface PacienteDao {
 
-    public void insert(Paciente paciente);
-    public void update(Paciente paciente);
+    public int insert(Paciente paciente);
+    public int update(Paciente paciente);
+    public int delete(String dni);
     public Paciente findByDni(String dni);
     public List<Paciente> findAll();
 }

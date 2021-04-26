@@ -2,19 +2,19 @@
         pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <!-- begin::Head -->
 <head>
-
     <!--begin::Base Path (base relative path for assets of this page) -->
     <base href="../../../../">
 
     <!--end::Base Path -->
     <meta charset="utf-8" />
     <title>Login SOWAD</title>
-    <meta name="description" content="Login page example">
+    <meta name="description" content="Página de Logeo">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <spring:url value="/resources/" var="urlPublic"/>
     <spring:url value="/" var="urlRoot"/>
@@ -36,7 +36,7 @@
 
     <!--begin::Page Custom Styles(used by this page) -->
     <link href="${urlPublic}css/login-1.css" rel="stylesheet" type="text/css" />
-    <link href="${urlPublic}fontawesome/css/all.css" rel="stylesheet">
+    <link href="${urlPublic}fontawesome/css/all.min.css" rel="stylesheet">
     <!--end::Page Custom Styles -->
 
     <!--begin:: Global Mandatory Vendors -->
@@ -135,15 +135,13 @@
                         </form>
 
                         <!--end::Form-->
-
-                        <!--begin::Divider-->
-                        <div class="kt-login__divider">
-                            <div class="kt-divider">
-                                <span></span>
-                                <span>REDES SOCIALES</span>
-                                <span></span>
+                        <c:if test="${mensaje != null}">
+                            <div class="alert alert-danger kt-animate-fade-in-up" role="alert">
+                                <strong>${mensaje}</strong>
                             </div>
-                        </div>
+                        </c:if>
+                        <!--begin::Divider-->
+
 
                         <!--end::Divider-->
 
